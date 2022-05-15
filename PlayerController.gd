@@ -1,13 +1,19 @@
 extends KinematicBody2D
 
+# Ground Physics Constants
 const GROUND_MOVE_FORCE = 600
 const GROUND_MAX_SPEED = 400
+
+# Air Physics Constants
+const AIR_MOVE_FORCE = 600
+const AIR_MAX_SPEED = 200
+onready var gravity = 200
+
+# General Physics Constants
 const STOP_FORCE = 1300
 const JUMP_SPEED = 200
 
 var velocity = Vector2()
-
-onready var gravity = 200
 
 enum STATES {GROUND, AIR}
 
@@ -28,8 +34,8 @@ func _physics_process(delta):
 			move_force = GROUND_MOVE_FORCE
 			max_speed = GROUND_MAX_SPEED
 		STATES.AIR:
-			move_force = GROUND_MOVE_FORCE
-			max_speed = GROUND_MAX_SPEED
+			move_force = AIR_MOVE_FORCE
+			max_speed = AIR_MAX_SPEED
 	
 	# Horizontal movement code. First, get the player's input.
 	var walk = move_force * (Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
@@ -50,11 +56,11 @@ func _physics_process(delta):
 
 	# is_on_floor() must be called after movement code.
 	if is_on_floor():
-		player_state = STATES.AIR
+		player_state = STATES.GROUND
 	# Check for jumping.
 		if Input.is_action_just_pressed("jump"):
 			velocity.y = -JUMP_SPEED
 	else:
-		player_state = STATES.GROUND
+		player_state = STATES.AIR
 	
 	#print("right: " + str(Input.is_action_pressed("move_right")))
