@@ -22,8 +22,7 @@ var player_state
 func _ready():
 	player_state = STATES.GROUND
 
-func _physics_process(delta):
-	
+func handle_movement(delta: float):
 	# set variables based on states
 	
 	var move_force : float
@@ -54,13 +53,20 @@ func _physics_process(delta):
 	# Move based on the velocity and snap to the ground.
 	velocity = move_and_slide_with_snap(velocity, Vector2.DOWN, Vector2.UP)
 
+func set_states():
 	# is_on_floor() must be called after movement code.
 	if is_on_floor():
 		player_state = STATES.GROUND
-	# Check for jumping.
-		if Input.is_action_just_pressed("jump"):
-			velocity.y = -JUMP_SPEED
 	else:
 		player_state = STATES.AIR
+
+func attempt_jump():
+	if player_state == STATES.GROUND and Input.is_action_just_pressed("jump"):
+		velocity.y = -JUMP_SPEED
+
+func _physics_process(delta: float):
 	
+	handle_movement(delta)
+	attempt_jump()
+	set_states()
 	#print("right: " + str(Input.is_action_pressed("move_right")))
