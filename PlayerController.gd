@@ -2,11 +2,11 @@ extends KinematicBody2D
 
 # Ground Physics Constants
 const GROUND_MOVE_FORCE = 600
-const GROUND_MAX_SPEED = 400
+const GROUND_MAX_SPEED = 300
 
 # Air Physics Constants
-const AIR_MOVE_FORCE = 600
-const AIR_MAX_SPEED = 200
+const AIR_MOVE_FORCE = 400
+const AIR_MAX_SPEED = 300
 onready var gravity = 200
 
 # General Physics Constants
@@ -53,6 +53,10 @@ func handle_movement(delta: float):
 	# Move based on the velocity and snap to the ground.
 	velocity = move_and_slide_with_snap(velocity, Vector2.DOWN, Vector2.UP)
 
+func attempt_jump():
+	if player_state == STATES.GROUND and Input.is_action_just_pressed("jump"):
+		velocity.y = -JUMP_SPEED
+
 func set_states():
 	# is_on_floor() must be called after movement code.
 	if is_on_floor():
@@ -60,13 +64,13 @@ func set_states():
 	else:
 		player_state = STATES.AIR
 
-func attempt_jump():
-	if player_state == STATES.GROUND and Input.is_action_just_pressed("jump"):
-		velocity.y = -JUMP_SPEED
+func do_attacks():
+	$AttackHitbox.visible = Input.is_action_pressed("attack")
 
 func _physics_process(delta: float):
 	
 	handle_movement(delta)
 	attempt_jump()
 	set_states()
+	do_attacks()
 	#print("right: " + str(Input.is_action_pressed("move_right")))

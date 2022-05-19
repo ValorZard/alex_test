@@ -5,8 +5,9 @@
 
 [node name="Root" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-
 [node name="StaticPlatform" parent="." instance=ExtResource( 1 )]
 position = Vector2( 457, 428 )
 scale = Vector2( 10, 1 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 455, 132 )
