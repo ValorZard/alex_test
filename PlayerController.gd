@@ -15,12 +15,16 @@ const JUMP_SPEED = 200
 
 var velocity = Vector2()
 
+# player gamestate stuff
 enum STATES {GROUND, AIR}
 
 var player_state
 
+var facing_right : bool
+
 func _ready():
 	player_state = STATES.GROUND
+	facing_right = true
 
 func handle_movement(delta: float):
 	# set variables based on states
@@ -40,10 +44,15 @@ func handle_movement(delta: float):
 	var walk = move_force * (Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
 	# Slow down the player if they're not trying to move.
 	if abs(walk) < move_force * 0.2:
+		# this is below deadzone
 		# The velocity, slowed down a bit, and then reassigned.
 		velocity.x = move_toward(velocity.x, 0, STOP_FORCE * delta)
 	else:
 		velocity.x += walk * delta
+		# set facing direction here since we accounted for dead zone
+		facing_right = walk > 0
+		#print(facing_right)
+	
 	# Clamp to the maximum horizontal movement speed.
 	velocity.x = clamp(velocity.x, -max_speed, max_speed)
 
@@ -66,6 +75,12 @@ func set_states():
 
 func do_attacks():
 	$AttackHitbox.visible = Input.is_action_pressed("attack")
+	var current_position_x = $AttackHitbox/Area2D.position.x
+	# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
+	if facing_right and current_position_x < 0:
+		$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
+	elif !facing_right and current_position_x > 0:
+		$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
 
 func _physics_process(delta: float):
 	
