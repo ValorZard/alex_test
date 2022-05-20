@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name Player
+
 # Ground Physics Constants
 const GROUND_MOVE_FORCE = 600
 const GROUND_MAX_SPEED = 300
@@ -25,6 +27,9 @@ var facing_right : bool
 func _ready():
 	player_state = STATES.GROUND
 	facing_right = true
+	
+	var hitbox = $AttackHitbox/Area2D
+	hitbox.connect("body_entered", self, "on_hitbox_entered")
 
 func handle_movement(delta: float):
 	# set variables based on states
@@ -74,13 +79,28 @@ func set_states():
 		player_state = STATES.AIR
 
 func do_attacks():
-	$AttackHitbox.visible = Input.is_action_pressed("attack")
-	var current_position_x = $AttackHitbox/Area2D.position.x
-	# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
-	if facing_right and current_position_x < 0:
-		$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
-	elif !facing_right and current_position_x > 0:
-		$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
+	# enable hitbox if its disabled, else dont
+	if Input.is_action_pressed("attack"):
+		$AttackHitbox.visible = true
+		$AttackHitbox/Area2D/CollisionShape2D.disabled = false
+		
+		var current_position_x = $AttackHitbox/Area2D.position.x
+	
+		# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
+		if facing_right and current_position_x < 0:
+			$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
+		elif !facing_right and current_position_x > 0:
+			$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
+		
+	else:
+		$AttackHitbox.visible = false
+		$AttackHitbox/Area2D/CollisionShape2D.disabled = true
+	
+
+func on_hitbox_entered(body):
+	#print("does this work")
+	if body.is_in_group("enemies"):
+		print("Yay")
 
 func _physics_process(delta: float):
 	
