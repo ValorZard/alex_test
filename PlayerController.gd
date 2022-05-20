@@ -100,7 +100,8 @@ func do_attacks():
 func on_hitbox_entered(body):
 	#print("does this work")
 	if body.is_in_group("enemies"):
-		print("Yay")
+		body.add_combo_hit(1)
+		print(body.combo_hit_counter)
 
 func _physics_process(delta: float):
 	

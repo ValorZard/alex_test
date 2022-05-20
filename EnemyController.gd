@@ -6,6 +6,7 @@ class_name Enemy
 # var a = 2
 # var b = "text"
 
+var combo_hit_counter : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,3 +19,6 @@ func _ready():
 func _physics_process(delta):
 	if !is_on_floor():
 		move_and_slide(Vector2(0, 100))
+
+func add_combo_hit(hit : int):
+	combo_hit_counter += hit
