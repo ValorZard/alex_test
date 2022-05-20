@@ -24,6 +24,8 @@ var player_state
 
 var facing_right : bool
 
+var player_combo_count : int = 0
+
 func _ready():
 	player_state = STATES.GROUND
 	facing_right = true
@@ -100,8 +102,17 @@ func do_attacks():
 func on_hitbox_entered(body):
 	#print("does this work")
 	if body.is_in_group("enemies"):
-		body.add_combo_hit(1)
-		print(body.combo_hit_counter)
+		# honestly, i think the player should handle counting the combo hits
+		if body.current_stun == 0:
+			# reset the combo count back to one if enemy is no longer in stun
+			player_combo_count = 1
+		else:
+			player_combo_count += 1
+		
+		print("Hit: ", player_combo_count, ", stun: ", body.current_stun)
+		
+		body.add_combo_hit(1, 30)
+		
 
 func _physics_process(delta: float):
 	
