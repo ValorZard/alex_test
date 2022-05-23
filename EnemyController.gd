@@ -23,11 +23,13 @@ func _physics_process(delta):
 	# deal with stun/combos; drop combo if no long in stun
 	if current_stun > 0:
 		current_stun -= 1
+		# change color to show if in hitstun
 		self.modulate = Color(0, 0, 1)
 	else:
 		combo_hit_counter = 0
 		self.modulate = Color(1, 1, 1)
 
-func add_combo_hit(hit : int, stun : int):
+func add_combo_hit(hit : int, stun : int, pushback : Vector2):
 	combo_hit_counter += hit
 	current_stun = stun
+	move_and_slide(pushback)

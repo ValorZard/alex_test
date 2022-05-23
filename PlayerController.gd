@@ -11,6 +11,9 @@ const AIR_MOVE_FORCE = 400
 const AIR_MAX_SPEED = 300
 onready var gravity = 200
 
+const MAX_AIR_JUMPS = 2
+var air_jumps = MAX_AIR_JUMPS
+
 # General Physics Constants
 const STOP_FORCE = 1300
 const JUMP_SPEED = 200
@@ -30,7 +33,7 @@ func _ready():
 	player_state = STATES.GROUND
 	facing_right = true
 	
-	var hitbox = $AttackHitbox/Area2D
+	var hitbox = $AttackHitbox/LightAttack
 	hitbox.connect("body_entered", self, "on_hitbox_entered")
 
 func handle_movement(delta: float):
@@ -70,34 +73,38 @@ func handle_movement(delta: float):
 	velocity = move_and_slide_with_snap(velocity, Vector2.DOWN, Vector2.UP)
 
 func attempt_jump():
-	if player_state == STATES.GROUND and Input.is_action_just_pressed("jump"):
-		velocity.y = -JUMP_SPEED
+	if Input.is_action_just_pressed("jump"):
+		if player_state == STATES.GROUND:
+			velocity.y = -JUMP_SPEED
+		elif air_jumps > 0:
+			velocity.y = -JUMP_SPEED
+			air_jumps -= 1
+		
 
 func set_states():
 	# is_on_floor() must be called after movement code.
 	if is_on_floor():
 		player_state = STATES.GROUND
+		# refill air jumps
+		air_jumps = MAX_AIR_JUMPS
 	else:
 		player_state = STATES.AIR
 
 func do_attacks():
 	# enable hitbox if its disabled, else dont
-	if Input.is_action_pressed("attack"):
-		$AttackHitbox.visible = true
-		$AttackHitbox/Area2D/CollisionShape2D.disabled = false
+	if !$AnimationPlayer.is_playing():
+		if Input.is_action_pressed("light_attack"):
+			$AnimationPlayer.play("punch")
+		else:
+			pass
 		
-		var current_position_x = $AttackHitbox/Area2D.position.x
-	
+		# handle flupping hitboxes depending on position
+		var current_position_x = $AttackHitbox/LightAttack.position.x
 		# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
 		if facing_right and current_position_x < 0:
-			$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
+			$AttackHitbox/LightAttack.position.x = -$AttackHitbox/LightAttack.position.x
 		elif !facing_right and current_position_x > 0:
-			$AttackHitbox/Area2D.position.x = -$AttackHitbox/Area2D.position.x
-		
-	else:
-		$AttackHitbox.visible = false
-		$AttackHitbox/Area2D/CollisionShape2D.disabled = true
-	
+			$AttackHitbox/LightAttack.position.x = -$AttackHitbox/LightAttack.position.x
 
 func on_hitbox_entered(body):
 	#print("does this work")
@@ -111,7 +118,17 @@ func on_hitbox_entered(body):
 		
 		print("Hit: ", player_combo_count, ", stun: ", body.current_stun)
 		
-		body.add_combo_hit(1, 30)
+		# calculate pushback
+		var pushback : Vector2
+		if facing_right:
+			pushback = Vector2(200, -500)
+		else:
+			pushback = Vector2(-200, -500)
+		
+		# calculate stun (attempt to do some staling)
+		var stun : int = 30 - player_combo_count - 5
+		
+		body.add_combo_hit(1, stun, pushback)
 		
 
 func _physics_process(delta: float):
