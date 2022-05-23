@@ -27,14 +27,18 @@ var player_state
 
 var facing_right : bool
 
-var player_combo_count : int = 0
+var combo_count : int = 0
 
 func _ready():
 	player_state = STATES.GROUND
 	facing_right = true
 	
-	var hitbox = $AttackHitbox/LightAttack
-	hitbox.connect("body_entered", self, "on_hitbox_entered")
+	# initialize hitboxes
+	var attacks := get_node("MeleeAttacks").get_children()
+	
+	for attack in attacks:
+		if attack is AttackData:
+			attack.player = self
 
 func handle_movement(delta: float):
 	# set variables based on states
@@ -99,37 +103,37 @@ func do_attacks():
 			pass
 		
 		# handle flupping hitboxes depending on position
-		var current_position_x = $AttackHitbox/LightAttack.position.x
+		var current_position_x = $MeleeAttacks/LightAttack.position.x
 		# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
 		if facing_right and current_position_x < 0:
-			$AttackHitbox/LightAttack.position.x = -$AttackHitbox/LightAttack.position.x
+			$MeleeAttacks/LightAttack.position.x = -$MeleeAttacks/LightAttack.position.x
 		elif !facing_right and current_position_x > 0:
-			$AttackHitbox/LightAttack.position.x = -$AttackHitbox/LightAttack.position.x
+			$MeleeAttacks/LightAttack.position.x = -$MeleeAttacks/LightAttack.position.x
 
-func on_hitbox_entered(body):
-	#print("does this work")
-	if body.is_in_group("enemies"):
-		# honestly, i think the player should handle counting the combo hits
-		if body.current_stun == 0:
-			# reset the combo count back to one if enemy is no longer in stun
-			player_combo_count = 1
-		else:
-			player_combo_count += 1
-		
-		print("Hit: ", player_combo_count, ", stun: ", body.current_stun)
-		
-		# calculate pushback
-		var pushback : Vector2
-		if facing_right:
-			pushback = Vector2(200, -500)
-		else:
-			pushback = Vector2(-200, -500)
-		
-		# calculate stun (attempt to do some staling)
-		var stun : int = 30 - player_combo_count - 5
-		
-		body.add_combo_hit(1, stun, pushback)
-		
+#func on_hitbox_entered(body):
+#	#print("does this work")
+#	if body.is_in_group("enemies"):
+#		# honestly, i think the player should handle counting the combo hits
+#		if body.current_stun == 0:
+#			# reset the combo count back to one if enemy is no longer in stun
+#			player_combo_count = 1
+#		else:
+#			player_combo_count += 1
+#
+#		print("Hit: ", player_combo_count, ", stun: ", body.current_stun)
+#
+#		# calculate pushback
+#		var pushback : Vector2
+#		if facing_right:
+#			pushback = Vector2(200, -500)
+#		else:
+#			pushback = Vector2(-200, -500)
+#
+#		# calculate stun (attempt to do some staling)
+#		var stun : int = 30 - player_combo_count - 5
+#
+#		body.add_combo_hit(1, stun, pushback)
+#
 
 func _physics_process(delta: float):
 	
