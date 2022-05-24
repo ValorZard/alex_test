@@ -14,9 +14,6 @@ scale = Vector2( 10, 1 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 455, 132 )
 
-[node name="Enemy" parent="." instance=ExtResource( 3 )]
-position = Vector2( 264, 205 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 510, 300 )
 script = ExtResource( 4 )
@@ -27,8 +24,13 @@ margin_top = 64.0
 margin_right = 160.0
 margin_bottom = 115.0
 
-[node name="Enemy2" parent="." instance=ExtResource( 3 )]
+[node name="Node" type="Node" parent="."]
+
+[node name="Enemy2" parent="Node" instance=ExtResource( 3 )]
 position = Vector2( 517, 243 )
 
-[node name="Enemy3" parent="." instance=ExtResource( 3 )]
+[node name="Enemy3" parent="Node" instance=ExtResource( 3 )]
 position = Vector2( 679, 145 )
+
+[node name="Enemy" parent="Node" instance=ExtResource( 3 )]
+position = Vector2( 264, 205 )

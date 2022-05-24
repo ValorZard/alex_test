@@ -21,7 +21,7 @@ const JUMP_SPEED = 200
 var velocity = Vector2()
 
 # player gamestate stuff
-enum STATES {GROUND, AIR}
+enum STATES {GROUND, AIR, GROUND_LIGHT, GROUND_HEAVY, AIR_LIGHT, AIR_HEAVY}
 
 var player_state
 
@@ -52,8 +52,8 @@ func _ready():
 func handle_movement(delta: float):
 	# set variables based on states
 	
-	var move_force : float
-	var max_speed : float
+	var move_force : float = 0
+	var max_speed : float = 0
 	
 	match player_state:
 		STATES.GROUND:
@@ -107,22 +107,16 @@ func do_attacks():
 	# enable hitbox if its disabled, else dont
 	if !$AnimationPlayer.is_playing():
 		if Input.is_action_pressed("light_attack"):
+			#player_state = STATES.GROUND_LIGHT
 			if light_attack_amt < 3:
 				$AnimationPlayer.play("punch")
 			else:
 				$AnimationPlayer.play("light_launcher")
 				# reset combo
 				light_attack_amt = 0
+			$InputBufferTimer.start()
 		else:
 			pass
-		
-#		# handle flupping hitboxes depending on position
-#		var current_position_x = $MeleeAttacks/LightAttack.position.x
-#		# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
-#		if facing_right and current_position_x < 0:
-#			$MeleeAttacks/LightAttack.position.x = -$MeleeAttacks/LightAttack.position.x
-#		elif !facing_right and current_position_x > 0:
-#			$MeleeAttacks/LightAttack.position.x = -$MeleeAttacks/LightAttack.position.x
 
 # add attack to history in order to do combos
 func add_attack_to_history(attack_type : String):
