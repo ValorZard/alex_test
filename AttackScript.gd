@@ -8,16 +8,22 @@ class_name AttackData
 # current attack states
 # probably a better way to do this to make it more flexible, but I'll do it like this for now
 # states depend if your on the ground or air
-var GROUND_STATES = {"HIT_1" : "GROUND_HIT_1", "HIT_2" : "GROUND_HIT_2", 
-	"HIT_3" : "GROUND_HIT_3", "LAUNCHER" : "LAUNCHER"}
+# var hit : array = []
 
-var AIR_STATES = {"HIT_1" : "AIR_HIT_1", "HIT_2" : "AIR_HIT_2", 
-	"HIT_3" : "AIR_HIT_3", "SPIKE" : "SPIKE"}
-
-var current_attack_state = GROUND_STATES.HIT_1
+#var current_attack_state = GROUND_STATES.HIT_1
 
 # define this at runtime by the player who initalized all the attack scripts
 var player
+
+export var pushback : Vector2
+
+export var attack_type : String
+
+signal hit_succesful(attack_type)
+
+# refactoring code to do callbacks to know if
+# 1. what strenght the attack is to store in attack history for combo string
+# 2. if the attack actually hit or not
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,11 +32,19 @@ func _ready():
 	#print(player.combo_count)
 	# set up signal for hitbox
 	self.connect("body_entered", self, "on_hitbox_entered")
+	
+	#attack_type = "Null"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	pass
+	# handle flupping hitboxes depending on position
+	var current_position_x = position.x
+	# flip hitbox only if facing the correct direction and the transform hasnt flipped yet
+	if player.facing_right and current_position_x < 0:
+		position.x = -position.x
+	elif !player.facing_right and current_position_x > 0:
+		position.x = -position.x
 
 func on_hitbox_entered(body):
 	#print("does this work")
@@ -44,46 +58,16 @@ func on_hitbox_entered(body):
 		
 		print("Hit: ", player.combo_count, ", stun: ", body.current_stun)
 		
-		# the following stuff depends on the current state of the attack
-		# first hit of combo, second hit and so on
+		# calculate pushback
+		#var pushback : Vector2
+		if player.facing_right:
+			pushback.x = abs(pushback.x)
+		else:
+			pushback.x = -abs(pushback.x)
 		
-		# attack change if in air or ground
-		# currently broken, will always reset back to first hit regardless of if on the ground or not
-		if player.is_on_floor():
-			current_attack_state = GROUND_STATES["HIT_1"]
-			print("first")
+		# calculate stun (attempt to do some staling)
+		var stun : int = 30 - player.combo_count - 5
 		
-		if !player.is_on_floor():
-			current_attack_state = AIR_STATES["HIT_1"]
-			print("wait did i reach this")
+		body.add_combo_hit(1, stun, pushback)
 		
-		
-		if current_attack_state == GROUND_STATES["HIT_1"]:
-			# calculate pushback
-			var pushback : Vector2
-			if player.facing_right:
-				pushback = Vector2(200, -5000)
-			else:
-				pushback = Vector2(-200, -5000)
-		
-			# calculate stun (attempt to do some staling)
-			var stun : int = 30 - player.combo_count - 5
-		
-			body.add_combo_hit(1, stun, pushback)
-		
-		if current_attack_state == AIR_STATES["HIT_1"]:
-			# calculate pushback
-			var pushback : Vector2
-			if player.facing_right:
-				pushback = Vector2(200, -2000)
-			else:
-				pushback = Vector2(-200, -2000)
-		
-			# calculate stun (attempt to do some staling)
-			var stun : int = 30 - player.combo_count - 5
-		
-			body.add_combo_hit(1, stun, pushback)
-			
-			#current_attack_state = AIR_STATES["HIT_2"]
-		
-		print(current_attack_state)
+		emit_signal("hit_succesful", attack_type)
