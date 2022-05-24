@@ -12,12 +12,12 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "AttackData",
 "language": "GDScript",
-"path": "res://AttackScript.gd"
+"path": "res://actors/player/AttackScript.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Enemy",
 "language": "GDScript",
-"path": "res://EnemyController.gd"
+"path": "res://actors/enemy/EnemyController.gd"
 }, {
 "base": "",
 "class": "GitAPI",
@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
-"path": "res://PlayerController.gd"
+"path": "res://actors/player/PlayerController.gd"
 } ]
 _global_script_class_icons={
 "AttackData": "",
@@ -39,8 +39,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Devin Test"
-run/main_scene="res://Root.tscn"
+run/main_scene="res://level/Root.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+AttackManager="*res://singletons/AttackManager.gd"
 
 [gdnative]
 
