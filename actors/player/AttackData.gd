@@ -19,7 +19,7 @@ export var pushback : Vector2
 
 export var attack_type : String
 
-signal hit_succesful(attack_type)
+#signal hit_succesful(attack_type)
 
 # refactoring code to do callbacks to know if
 # 1. what strenght the attack is to store in attack history for combo string
@@ -33,8 +33,8 @@ func _ready():
 	# set up signal for hitbox
 	self.connect("body_entered", self, "on_hitbox_entered")
 	
-	#attack_type = "Null"
-
+	# make sure default hitbox is disabled
+	$CollisionShape2D.disabled = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -45,6 +45,7 @@ func _physics_process(delta):
 		position.x = -position.x
 	elif !player.facing_right and current_position_x > 0:
 		position.x = -position.x
+	
 
 func on_hitbox_entered(body):
 	#print("does this work")
@@ -73,5 +74,5 @@ func on_hitbox_entered(body):
 		
 		body.add_combo_hit(1, stun, pushback)
 		
-		emit_signal("hit_succesful", attack_type)
+		#emit_signal("hit_succesful", attack_type)
 		

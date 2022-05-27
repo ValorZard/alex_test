@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://actors/player/PlayerController.gd" type="Script" id=1]
-[ext_resource path="res://actors/player/AttackScript.gd" type="Script" id=2]
+[ext_resource path="res://actors/player/AttackData.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
@@ -108,3 +108,5 @@ anims/punch = SubResource( 3 )
 
 [node name="InputBufferTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="CharacterStateMachine" type="Node" parent="."]

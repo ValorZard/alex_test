@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "AttackData",
 "language": "GDScript",
-"path": "res://actors/player/AttackScript.gd"
+"path": "res://actors/player/AttackData.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Enemy",

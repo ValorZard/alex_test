@@ -44,10 +44,6 @@ func _ready():
 	for attack in attacks:
 		if attack is AttackData:
 			attack.player = self
-			attack.connect("hit_succesful", self, "add_attack_to_history")
-	
-	# initialize UI
-	#debug_label = $Camera2D/Label
 
 func handle_movement(delta: float):
 	# set variables based on states
@@ -103,37 +99,15 @@ func set_states():
 	else:
 		player_state = STATES.AIR
 
-#func do_attacks():
-#	# enable hitbox if its disabled, else dont
-#	if !$AnimationPlayer.is_playing():
-#		if Input.is_action_pressed("light_attack"):
-#			#player_state = STATES.GROUND_LIGHT
-#			if light_attack_amt < 3:
-#				$AnimationPlayer.play("punch")
-#			else:
-#				$AnimationPlayer.play("light_launcher")
-#				# reset combo
-#				light_attack_amt = 0
-#			$InputBufferTimer.start()
-#		else:
-#			pass
-
 func do_attacks():
 	# enable hitbox if its disabled, else dont
 	if !$AnimationPlayer.is_playing():
 		if Input.is_action_pressed("light_attack"):
 			$AnimationPlayer.play("punch")
 
-# add attack to history in order to do combos
-func add_attack_to_history(attack_type : String):
-	if attack_type == "Light":
-		light_attack_amt += 1
-	
-
 func _physics_process(delta: float):
 	handle_movement(delta)
 	attempt_jump()
 	set_states()
 	do_attacks()
-	#print("right: " + str(Input.is_action_pressed("move_right")))
 	 
