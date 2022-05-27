@@ -29,10 +29,14 @@ func _physics_process(delta):
 		# change color to show if in hitstun
 		self.modulate = Color(0, 0, 1)
 		
+		if not AttackManager.list_of_enemies_in_stun.has(self):
+			AttackManager.list_of_enemies_in_stun.push_back(self)
 	else:
 		combo_hit_counter = 0
 		self.modulate = Color(1, 1, 1)
 		is_hit = false
+		if AttackManager.list_of_enemies_in_stun.has(self):
+			AttackManager.list_of_enemies_in_stun.erase(self)
 
 func add_combo_hit(hit : int, stun : int, pushback : Vector2):
 	combo_hit_counter += hit

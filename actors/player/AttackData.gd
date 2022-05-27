@@ -57,8 +57,6 @@ func on_hitbox_entered(body):
 		else:
 			AttackManager.combo_count += 1
 		
-		AttackManager.list_of_enemies_in_stun.push_back(body)
-		
 		# calculate pushback
 		#var pushback : Vector2
 		if player.facing_right:
