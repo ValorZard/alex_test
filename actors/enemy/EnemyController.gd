@@ -9,6 +9,9 @@ class_name Enemy
 var combo_hit_counter : int = 0
 var current_stun : int = 0
 
+# check if enemy got hit so that we can add to the combo counter enemy list
+var is_hit : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# make sure that this is part of Enemy group
@@ -25,16 +28,11 @@ func _physics_process(delta):
 		current_stun -= 1
 		# change color to show if in hitstun
 		self.modulate = Color(0, 0, 1)
-		# put enemy hit into attacked enemy list
-		if not self in AttackManager.list_of_enemies_in_stun:
-			AttackManager.list_of_enemies_in_stun.push_back(self)
-			#print("push!")
+		
 	else:
 		combo_hit_counter = 0
 		self.modulate = Color(1, 1, 1)
-		if self in AttackManager.list_of_enemies_in_stun:
-			AttackManager.list_of_enemies_in_stun.erase(self)
-			#print("pog!")
+		is_hit = false
 
 func add_combo_hit(hit : int, stun : int, pushback : Vector2):
 	combo_hit_counter += hit

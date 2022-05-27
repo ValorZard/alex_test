@@ -54,12 +54,10 @@ func on_hitbox_entered(body):
 		if len(AttackManager.list_of_enemies_in_stun) == 0:
 			# reset the combo count back to one if enemy is no longer in stun
 			AttackManager.combo_count = 1
-			#player.combo_count = 1
 		else:
 			AttackManager.combo_count += 1
-			#player.combo_count += 1
 		
-		#player.debug_label.text = str("Hit: ", player.combo_count, ", stun: ", body.current_stun)
+		AttackManager.list_of_enemies_in_stun.push_back(body)
 		
 		# calculate pushback
 		#var pushback : Vector2
@@ -73,6 +71,4 @@ func on_hitbox_entered(body):
 		var stun : int = 25
 		
 		body.add_combo_hit(1, stun, pushback)
-		
-		#emit_signal("hit_succesful", attack_type)
 		

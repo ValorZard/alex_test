@@ -17,19 +17,19 @@ scale = Vector2( 10, 1 )
 offset = Vector2( 510, 300 )
 script = ExtResource( 4 )
 
-[node name="Label" type="Label" parent="Camera2D"]
+[node name="ComboLabel" type="Label" parent="Camera2D" groups=["combo_counter"]]
 margin_left = 70.0
 margin_top = 64.0
 margin_right = 160.0
 margin_bottom = 115.0
 
-[node name="Node" type="Node" parent="."]
+[node name="Enemies" type="Node" parent="."]
 
-[node name="Enemy2" parent="Node" instance=ExtResource( 3 )]
+[node name="Enemy2" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 517, 243 )
 
-[node name="Enemy3" parent="Node" instance=ExtResource( 3 )]
+[node name="Enemy3" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 679, 145 )
 
-[node name="Enemy" parent="Node" instance=ExtResource( 3 )]
+[node name="Enemy" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 264, 205 )
