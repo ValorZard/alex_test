@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://level/StaticPlatform.tscn" type="PackedScene" id=1]
-[ext_resource path="res://actors/player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://AnimatedPlayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://actors/enemy/Enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://level/CameraController.gd" type="Script" id=4]
 
@@ -12,9 +12,6 @@
 [node name="StaticPlatform" parent="Platforms" instance=ExtResource( 1 )]
 position = Vector2( 457, 428 )
 scale = Vector2( 10, 1 )
-
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 407, 127 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 510, 300 )
@@ -35,4 +32,8 @@ position = Vector2( 517, 243 )
 position = Vector2( 679, 145 )
 
 [node name="Enemy" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 264, 205 )
+position = Vector2( 237, 181 )
+
+[node name="AnimatedPlayer" parent="." instance=ExtResource( 2 )]
+position = Vector2( 357, 122 )
+scale = Vector2( 0.1, 0.1 )
