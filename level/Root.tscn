@@ -35,5 +35,4 @@ position = Vector2( 679, 145 )
 position = Vector2( 237, 181 )
 
 [node name="AnimatedPlayer" parent="." instance=ExtResource( 2 )]
-position = Vector2( 357, 122 )
-scale = Vector2( 0.1, 0.1 )
+position = Vector2( 334, 157 )

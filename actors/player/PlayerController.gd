@@ -69,7 +69,11 @@ func handle_movement(delta: float):
 	else:
 		velocity.x += walk * delta
 		# set facing direction here since we accounted for dead zone
-		facing_right = walk > 0
+		var currDirection = walk > 0
+		if (facing_right != currDirection):
+			apply_scale(Vector2(-1.0, 1.0))
+			move_local_x(-44.5 * 2)
+			facing_right = currDirection
 		#print(facing_right)
 	
 	# Clamp to the maximum horizontal movement speed.
