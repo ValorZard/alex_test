@@ -106,8 +106,11 @@ func set_states():
 func do_attacks():
 	# enable hitbox if its disabled, else dont
 	if !$AnimationPlayer.is_playing():
-		if Input.is_action_pressed("light_attack"):
+		if Input.is_action_just_pressed("light_attack"):
 			$AnimationPlayer.play("punch")
+		if Input.is_action_just_pressed("heavy_attack"):
+			$AnimationPlayer.play("light_launcher")
+		
 
 func _physics_process(delta: float):
 	handle_movement(delta)

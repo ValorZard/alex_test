@@ -268,7 +268,6 @@ default_length = 150.0
 [node name="arm_left" type="Bone2D" parent="skeleton/hip/chest"]
 position = Vector2( 79.459, -148.792 )
 rotation = -0.342085
-scale = Vector2( 1, 1 )
 rest = Transform2D( 1, 0, 0, 1, 77, -139 )
 
 [node name="hand_left" type="Bone2D" parent="skeleton/hip/chest/arm_left"]
@@ -279,13 +278,12 @@ default_length = 147.0
 
 [node name="arm_right" type="Bone2D" parent="skeleton/hip/chest"]
 position = Vector2( -88.7191, -132.025 )
-rotation = -0.508953
-scale = Vector2( 1, 1 )
+rotation = 0.151567
 rest = Transform2D( 1, 0, 0, 1, -114, -130 )
 
 [node name="hand_right" type="Bone2D" parent="skeleton/hip/chest/arm_right"]
 position = Vector2( -7, 100 )
-rotation = 0.403533
+rotation = 0.732077
 rest = Transform2D( 0.0610485, 0.998135, -0.998135, 0.0610485, -7, 100 )
 default_length = 165.0
 
@@ -331,8 +329,10 @@ visible = false
 [node name="LightAttack" type="Area2D" parent="MeleeAttacks"]
 position = Vector2( 64, 0 )
 script = ExtResource( 4 )
-pushback = Vector2( 200, -500 )
 attack_type = "Light"
+hitstun = 40
+pushback = Vector2( 200, -500 )
+pushback_time = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttacks/LightAttack"]
 position = Vector2( 649, 161 )
@@ -342,6 +342,10 @@ disabled = true
 
 [node name="LightLauncher" type="Area2D" parent="MeleeAttacks"]
 position = Vector2( 64, 0 )
+script = ExtResource( 4 )
+hitstun = 50
+pushback = Vector2( 20, -500 )
+pushback_time = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttacks/LightLauncher"]
 position = Vector2( 648, 157 )

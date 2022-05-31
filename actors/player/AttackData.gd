@@ -15,9 +15,13 @@ class_name AttackData
 # define this at runtime by the player who initalized all the attack scripts
 var player
 
+export var attack_type : String
+
+export var hitstun : int
+
 export var pushback : Vector2
 
-export var attack_type : String
+export var pushback_time : int = 1 # number of frames pushback lasts
 
 #signal hit_succesful(attack_type)
 
@@ -66,7 +70,7 @@ func on_hitbox_entered(body):
 		
 		# calculate stun (attempt to do some staling)
 		#var stun : int = 30 - AttackManager.combo_count - 5
-		var stun : int = 25
+		#var stun : int = 25
 		
-		body.add_combo_hit(1, stun, pushback)
+		body.add_combo_hit(1, hitstun, pushback, pushback_time)
 		
