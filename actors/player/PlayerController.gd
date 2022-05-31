@@ -69,7 +69,11 @@ func handle_movement(delta: float):
 	else:
 		velocity.x += walk * delta
 		# set facing direction here since we accounted for dead zone
-		facing_right = walk > 0
+		var currDirection = walk > 0
+		if (facing_right != currDirection):
+			apply_scale(Vector2(-1.0, 1.0))
+			move_local_x(-44.5 * 2)
+			facing_right = currDirection
 		#print(facing_right)
 	
 	# Clamp to the maximum horizontal movement speed.
@@ -102,8 +106,11 @@ func set_states():
 func do_attacks():
 	# enable hitbox if its disabled, else dont
 	if !$AnimationPlayer.is_playing():
-		if Input.is_action_pressed("light_attack"):
+		if Input.is_action_just_pressed("light_attack"):
 			$AnimationPlayer.play("punch")
+		if Input.is_action_just_pressed("heavy_attack"):
+			$AnimationPlayer.play("light_launcher")
+		
 
 func _physics_process(delta: float):
 	handle_movement(delta)
