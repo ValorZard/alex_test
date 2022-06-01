@@ -53,7 +53,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "light_launcher"
-length = 0.5
+length = 0.4
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("MeleeAttacks:visible")
@@ -86,10 +86,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( -0.01, 0.07, 0.15, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( -0.01, 0.07, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ -19.6, -0.4, -0.401731, -113.8, -19.6 ]
+"values": [ -19.6, -0.4, -0.401731, -113.8 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("skeleton/hip/chest/arm_left/hand_left:rotation_degrees")
@@ -98,10 +98,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.08, 0.15, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.08, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ -0.9, 53.2, 22.4, 45.0, -0.9 ]
+"values": [ -0.9, 53.2, 22.4, 70.2 ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("skeleton/hip/chest/arm_right:rotation_degrees")
@@ -110,10 +110,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.07, 0.15, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ -29.1608, 8.7, 8.68417, 8.7, -29.1608 ]
+"values": [ -29.1608, 8.7, 8.68417 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("skeleton/hip/chest/arm_right/hand_right:rotation_degrees")
@@ -122,10 +122,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.07, 0.15, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 23.1207, 41.9, 41.9449, 41.9449, 23.1 ]
+"values": [ 23.1207, 41.9, 41.9449 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -343,6 +343,7 @@ disabled = true
 [node name="LightLauncher" type="Area2D" parent="MeleeAttacks"]
 position = Vector2( 64, 0 )
 script = ExtResource( 4 )
+damage = 5
 hitstun = 50
 pushback = Vector2( 20, -500 )
 pushback_time = 10
