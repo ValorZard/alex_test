@@ -10,6 +10,7 @@ var combo_hit_counter : int = 0
 var current_stun : int = 0
 var current_pushback : Vector2
 var current_pushback_time : int = 0
+var health : int = 10
 
 # check if enemy got hit so that we can add to the combo counter enemy list
 var is_hit : bool = false
@@ -50,3 +51,8 @@ func add_combo_hit(hit : int, stun : int, pushback : Vector2, pushback_time: int
 	current_stun = stun
 	current_pushback = pushback
 	current_pushback_time = pushback_time
+	health -= hit
+	get_node("ProgressBar").value -= hit
+	if health <= 0:
+		get_parent().remove_child(self)
+	
