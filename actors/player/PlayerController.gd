@@ -109,7 +109,7 @@ func do_attacks():
 		if Input.is_action_just_pressed("light_attack"):
 			$AnimationPlayer.play("punch")
 		if Input.is_action_just_pressed("heavy_attack"):
-			if is_on_floor():
+			if player_state == STATES.AIR:
 				$AnimationPlayer.play("light_launcher")
 			else:
 				$AnimationPlayer.play("down_spike")
