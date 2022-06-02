@@ -424,7 +424,7 @@ position = Vector2( 64, 0 )
 script = ExtResource( 4 )
 damage = 5
 hitstun = 50
-pushback = Vector2( 20, -500 )
+pushback = Vector2( 20, -1000 )
 pushback_time = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttacks/LightLauncher"]
