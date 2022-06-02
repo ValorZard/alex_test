@@ -16,8 +16,8 @@ func _physics_process(delta):
 	pass
 
 
-func add_combo(enemy : Enemy):
-	if len(AttackManager.list_of_enemies_in_stun) == 0:
+func add_stunned_enemy(enemy : Enemy):
+	if len(list_of_enemies_in_stun) == 0:
 		# reset the combo count back to one if enemy is no longer in stun
 		combo_count = 1
 		# put it into the stun queue

@@ -27,6 +27,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if !is_on_floor():
+		# apply gravity
 		move_and_slide(Vector2(0, 100))
 	# deal with stun/combos; drop combo if no long in stun
 	if current_stun > 0:
@@ -45,7 +46,7 @@ func _physics_process(delta):
 		
 
 func add_combo_hit(hit : int, damage : int, stun : int, pushback : Vector2, pushback_time: int):
-	AttackManager.add_combo(self)
+	AttackManager.add_stunned_enemy(self)
 	current_stun = stun
 	current_pushback = pushback
 	current_pushback_time = pushback_time
