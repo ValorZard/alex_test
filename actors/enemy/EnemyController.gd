@@ -37,8 +37,7 @@ func _physics_process(delta):
 		#combo_hit_counter = 0
 		self.modulate = Color(1, 1, 1)
 		is_hit = false
-		if AttackManager.list_of_enemies_in_stun.has(self):
-			AttackManager.list_of_enemies_in_stun.erase(self)
+		AttackManager.remove_enemy(self)
 	# deal with pushback time (make sure it lasts the correct amount of frames
 	if current_pushback_time > 0:
 		current_pushback_time -= 1
@@ -46,15 +45,7 @@ func _physics_process(delta):
 		
 
 func add_combo_hit(hit : int, damage : int, stun : int, pushback : Vector2, pushback_time: int):
-	if len(AttackManager.list_of_enemies_in_stun) == 0:
-		# reset the combo count back to one if enemy is no longer in stun
-		AttackManager.combo_count = 1
-		# put it into the stun queue
-		AttackManager.list_of_enemies_in_stun.push_back(self)
-	else:
-		AttackManager.combo_count += 1
-	
-	#combo_hit_counter += hit
+	AttackManager.add_combo(self)
 	current_stun = stun
 	current_pushback = pushback
 	current_pushback_time = pushback_time
@@ -65,6 +56,5 @@ func add_combo_hit(hit : int, damage : int, stun : int, pushback : Vector2, push
 
 func on_death():
 	# erase self from list CURRENTLY BUGGED
-	if AttackManager.list_of_enemies_in_stun.has(self):
-		AttackManager.list_of_enemies_in_stun.erase(self)
+	AttackManager.remove_enemy(self)
 	self.queue_free()
