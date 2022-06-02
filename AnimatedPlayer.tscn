@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://gBot_pieces.png" type="Texture" id=1]
 [ext_resource path="res://actors/player/InputHandler.gd" type="Script" id=2]
@@ -11,6 +11,8 @@ radius = 165.0
 height = 522.0
 
 [sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="RectangleShape2D" id=6]
 
 [sub_resource type="Animation" id=5]
 length = 0.001
@@ -49,6 +51,83 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( -88.7191, -132.025 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "down_spike"
+length = 0.5
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("MeleeAttacks:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MeleeAttacks/AirSpike/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("skeleton/hip/chest/arm_left:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.07, 0.15, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -17.2, -99.5, -138.5, -4.8, -17.2 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("skeleton/hip/chest/arm_left/hand_left:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.07, 0.15, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -0.9, 53.4, 8.6, 45.3, -0.9 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("skeleton/hip/chest/arm_right:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( -0.01, 0.07, 0.15, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -29.1608, 8.7, 8.7, 8.7, -29.1608 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("skeleton/hip/chest/arm_right/hand_right:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.07, 0.15, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 23.1207, 41.9, 41.9, 41.9, 23.1207 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -278,12 +357,12 @@ default_length = 147.0
 
 [node name="arm_right" type="Bone2D" parent="skeleton/hip/chest"]
 position = Vector2( -88.7191, -132.025 )
-rotation = -0.509636
+rotation = -0.426353
 rest = Transform2D( 1, 0, 0, 1, -114, -130 )
 
 [node name="hand_right" type="Bone2D" parent="skeleton/hip/chest/arm_right"]
 position = Vector2( -7, 100 )
-rotation = 0.403171
+rotation = 0.403532
 rest = Transform2D( 0.0610485, 0.998135, -0.998135, 0.0610485, -7, 100 )
 default_length = 165.0
 
@@ -354,8 +433,23 @@ scale = Vector2( 10, 10 )
 shape = SubResource( 2 )
 disabled = true
 
+[node name="AirSpike" type="Area2D" parent="MeleeAttacks"]
+position = Vector2( 64, 0 )
+script = ExtResource( 4 )
+damage = 5
+hitstun = 50
+pushback = Vector2( 20, 500 )
+pushback_time = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttacks/AirSpike"]
+position = Vector2( 648, 157 )
+scale = Vector2( 10, 10 )
+shape = SubResource( 6 )
+disabled = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 5 )
+anims/down_spike = SubResource( 7 )
 anims/light_launcher = SubResource( 4 )
 anims/punch = SubResource( 3 )
 
