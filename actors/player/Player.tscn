@@ -86,8 +86,8 @@ visible = false
 [node name="LightAttack" type="Area2D" parent="MeleeAttacks"]
 position = Vector2( 64, 0 )
 script = ExtResource( 2 )
-pushback = Vector2( 200, -500 )
 attack_type = "Light"
+pushback = Vector2( 200, -500 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttacks/LightAttack"]
 position = Vector2( 14.5, 10.5 )
@@ -97,8 +97,8 @@ disabled = true
 [node name="LightLauncher" type="Area2D" parent="MeleeAttacks"]
 position = Vector2( 64, 0 )
 script = ExtResource( 2 )
-pushback = Vector2( 200, -5000 )
 attack_type = "Light"
+pushback = Vector2( 200, -5000 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttacks/LightLauncher"]
 position = Vector2( 14.5, 10.5 )

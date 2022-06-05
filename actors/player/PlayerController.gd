@@ -109,7 +109,10 @@ func do_attacks():
 		if Input.is_action_just_pressed("light_attack"):
 			$AnimationPlayer.play("punch")
 		if Input.is_action_just_pressed("heavy_attack"):
-			$AnimationPlayer.play("light_launcher")
+			if player_state == STATES.GROUND:
+				$AnimationPlayer.play("light_launcher")
+			else:
+				$AnimationPlayer.play("down_spike")
 		
 
 func _physics_process(delta: float):

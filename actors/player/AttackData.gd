@@ -17,7 +17,9 @@ var player
 
 export var attack_type : String
 
-export var hitstun : int
+export var damage : int = 1
+
+export var hitstun : int = 1
 
 export var pushback : Vector2
 
@@ -55,11 +57,11 @@ func on_hitbox_entered(body):
 	#print("does this work")
 	if body.is_in_group("enemies"):
 		# honestly, i think the player should handle counting the combo hits
-		if len(AttackManager.list_of_enemies_in_stun) == 0:
+		#if len(AttackManager.list_of_enemies_in_stun) == 0:
 			# reset the combo count back to one if enemy is no longer in stun
-			AttackManager.combo_count = 1
-		else:
-			AttackManager.combo_count += 1
+		#	AttackManager.combo_count = 1
+		#else:
+		#	AttackManager.combo_count += 1
 		
 		# calculate pushback
 		#var pushback : Vector2
@@ -72,5 +74,5 @@ func on_hitbox_entered(body):
 		#var stun : int = 30 - AttackManager.combo_count - 5
 		#var stun : int = 25
 		
-		body.add_combo_hit(1, hitstun, pushback, pushback_time)
+		body.add_combo_hit(1, damage, hitstun, pushback, pushback_time)
 		

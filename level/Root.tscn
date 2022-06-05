@@ -27,6 +27,7 @@ margin_bottom = 115.0
 
 [node name="Enemy2" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 517, 243 )
+health = 100
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 679, 145 )
