@@ -50,6 +50,11 @@ AttackManager="*res://singletons/AttackManager.gd"
 
 singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
 
+[global]
+
+camera=false
+viewport=false
+
 [input]
 
 move_left={
